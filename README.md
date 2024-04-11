@@ -1,9 +1,13 @@
-# Overview of python-proxytype
+# Overview
 
-python-proxytype is a python package providing a [MyPy] plugin and a
+preoccupied.proxytype is a [Python] package providing a [MyPy] plugin and a
 class decorator for triggering that plugin. The decorator can be used
 to indicate that a decorated class should be considered during static
 analysis to posess all of the methods from another class.
+
+[python]: https://python.org
+
+[MyPy]: https://mypy-lang.org
 
 This pattern is distinct from inheritance, in that it will also apply
 a transformation to the return type of the copied methods. It is valid
@@ -17,6 +21,34 @@ process.
 The class decorator has no behavior at runtime -- it does not
 implement the proxying. It is only there to provide a way to declare
 such behavior during static analysis.
+
+
+## Installation
+
+Install from the latest PyPI release
+
+```bash
+pip install --user preoccupied.proxytype
+```
+
+Install from git master
+
+```bash
+pip install --user git+https://github.com/obriencj/proxytype
+```
+
+
+## Enable plugin
+
+At runtime the proxytype class decorator does not introduce a MyPy
+dependency. However in order for it to operate during MyPy's static
+analysis checks the plugin must be enabled. For example:
+
+```ini filename=setup.cfg
+[mypy]
+plugins =
+  preoccupied.proxytype.mypy
+```
 
 
 ## Usage of proxytype
@@ -47,10 +79,9 @@ class DelayResult(Generic[RT]):
 class DelayClientSession:
     def getName(self) -> str:
         ...
-
 ```
 
-This will cause static analysys via [MyPy] of the `DelayClientSession`
+This will cause static analysys via MyPy of the `DelayClientSession`
 to appear as if it had been declared as:
 
 ```python
@@ -66,14 +97,12 @@ class DelayClientSession:
         ...
 ```
 
-[MyPy]: https://mypy-lang.org
-
 
 ## Contact
 
-author: Christopher O'Brien  <obriencj@gmail.com>
+author: Christopher O'Brien  <obriencj@preoccupied.net>
 
-original git repository: <https://github.com/obriencj/python-typehack-proxytype>
+original git repository: <https://github.com/obriencj/preoccupied-proxytype>
 
 
 ## License
