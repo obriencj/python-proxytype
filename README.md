@@ -34,7 +34,7 @@ pip install --user preoccupied.proxytype
 Install from git master
 
 ```bash
-pip install --user git+https://github.com/obriencj/proxytype
+pip install --user git+https://github.com/obriencj/python-proxytype
 ```
 
 
@@ -47,14 +47,13 @@ analysis checks the plugin must be enabled. For example:
 ```ini filename=setup.cfg
 [mypy]
 plugins =
-  preoccupied.proxytype.mypy
+  preoccupied.proxytype
 ```
 
 
 ## Usage of proxytype
 
 ```python
-
 from preoccupied.proxytype import proxytype
 
 
@@ -85,7 +84,6 @@ This will cause static analysys via MyPy of the `DelayClientSession`
 to appear as if it had been declared as:
 
 ```python
-
 class DelayClientSession:
     def doSomething(self, how_many: int, etc: Any) -> DelayResult[List[int]]:
         ...
