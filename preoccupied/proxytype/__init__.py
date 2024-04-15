@@ -19,15 +19,24 @@ The `proxytype` class decorator is for use in cases where we need to
 provide static typing information for a class that dynamically proxies
 the methods of some other class.
 
+In order to get the static analysis features, this plugin needs to be
+enabled in mypy with a configuration similar to the following
+
+```ini filename=setup.cfg
+[mypy]
+plugins =
+  preoccupied.proxytype
+```
+
 :author: Christopher O'Brien <obriencj@preoccupied.net>
 :license: GPL v3
 """
 
 
-from typing import Generic, List, Type, TypeVar, Union, cast, overload
+from typing import Generic, Type, TypeVar
 
 
-__all__ = ( "proxytype", )
+__all__ = ("proxytype", )
 
 
 PT = TypeVar("PT")  # Original type to proxy

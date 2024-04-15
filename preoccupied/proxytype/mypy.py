@@ -13,16 +13,7 @@
 
 
 """
-MyPy plugin for preoccupied.proxytype
-
-Enable this plugin in MyPy to use the static analysis decoration of
-the proxytype class decorator.
-
-```ini filename=setup.cfg
-[mypy]
-plugins =
-  preoccupied.proxytype
-```
+Implementation of the MyPy plugin for preoccupied.proxytype
 
 :author: Christopher O'Brien  <obriencj@preoccupied.net>
 :license: GPL v3
