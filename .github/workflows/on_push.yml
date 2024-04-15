@@ -28,6 +28,9 @@ on:
 
 
 jobs:
+  permissions:
+    security-events: write
+
   run-bandit:
     uses: ./.github/workflows/run_bandit.yml
 
