@@ -28,10 +28,11 @@ on:
 
 
 jobs:
-  permissions:
-    security-events: write
 
   run-bandit:
+    permissions:
+      security-events: write
+
     uses: ./.github/workflows/run_bandit.yml
 
   run-tests:
