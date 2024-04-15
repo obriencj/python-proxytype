@@ -102,7 +102,7 @@ class DelayClientSession:
 
 author: Christopher O'Brien  <obriencj@preoccupied.net>
 
-original git repository: <https://github.com/obriencj/preoccupied-proxytype>
+original git repository: <https://github.com/obriencj/python-proxytype>
 
 
 ## License
