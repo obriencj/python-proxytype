@@ -21,7 +21,7 @@ the proxytype class decorator.
 ```ini filename=setup.cfg
 [mypy]
 plugins =
-  preoccupied.proxytype.mypy
+  preoccupied.proxytype
 ```
 
 :author: Christopher O'Brien  <obriencj@preoccupied.net>
@@ -32,11 +32,12 @@ plugins =
 from mypy.nodes import Decorator, FuncDef, OverloadedFuncDef, TypeInfo
 from mypy.plugin import ClassDefContext, MethodContext, Plugin
 from mypy.types import CallableType, Instance
+from typing import List, Union, cast
 
 
 # This string needs to refer to the fully-qualified identifier for the
-# above class, which stands as our sentinel to trigger the plugin's
-# behavior.
+# `ProxyTypeBuilder` class's `__call__` method, which stands as our
+# sentinel to trigger the plugin's behavior.
 PTB_CALL = "preoccupied.proxytype.ProxyTypeBuilder.__call__"
 
 
@@ -150,12 +151,6 @@ class ProxyTypePlugin(Plugin):
         if fullname == PTB_CALL:
             return handle_proxytype_hook
         return None
-
-
-def plugin(version: str):
-    # mypy plugin loading point
-
-    return ProxyTypePlugin
 
 
 # The end.

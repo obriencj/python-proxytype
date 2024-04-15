@@ -57,28 +57,32 @@ def proxytype(
 
     ```
     class ClientSession:
-        # lots of methods here
-        ...
+        def getPerms(self) -> List[str]:
+            ...
 
     class VirtualCall(Generic[T]):
         result: T
 
     @proxytype(ClientSession, VirtualCall)
     class MultiCallSession:
-        # all methods from ClientSession magically copied into
-        # this during static analysys
         ...
     ```
 
-    for example then, a method on ClientSession such as
-      ``getPerms(self: ClientSession) -> List[str]``
-
-    will be recreated on MultiCallSession as
+    even though not explicitly declared, the following signature
+    exists on MultiCallSession during static analysis:
       ``getPerms(self: MultiCallSession) -> VirtualCall[List[str]]``
-
     """
 
     return ProxyTypeBuilder()
+
+
+def plugin(version: str):
+    # mypy plugin loading point. Note that we hide the implementation
+    # in a different module so that the decorator can be used without
+    # triggering mypy import dependencies.
+
+    from .mypy import ProxyTypePlugin
+    return ProxyTypePlugin
 
 
 # The end.
