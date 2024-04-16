@@ -13,7 +13,8 @@
 
 
 """
-preoccupied.proxytype - static analysis decorator for dynamic proxy classes
+preoccupied.proxytype - static analysis decorator for dynamic proxy
+classes
 
 The `proxytype` class decorator is for use in cases where we need to
 provide static typing information for a class that dynamically proxies
@@ -33,7 +34,7 @@ plugins =
 """
 
 
-from typing import Generic, Type, TypeVar
+from typing import Generic, Type, TypeVar, overload
 
 
 __all__ = ("proxytype", )
@@ -51,35 +52,62 @@ class ProxyTypeBuilder(Generic[PT, RT]):
         return cls
 
 
+@overload
+def proxytype(
+        orig_class: Type[PT]) -> ProxyTypeBuilder[PT, None]:
+    ...
+
+
+@overload
 def proxytype(
         orig_class: Type[PT],
         return_wrapper: Type[RT]) -> ProxyTypeBuilder[PT, RT]:
+    ...
 
+
+def proxytype(
+        orig_class: Type[PT],
+        return_wrapper: Type[RT] = None) -> ProxyTypeBuilder[PT, RT]:
     """
-    class decorator which, via its ProxyTypeBuilder return type,
-    triggers augmentation of its wrapper class with the methods found
-    in the orig_class type, having their first (self) argument changed
+    class decorator which triggers this MyPy plugin to virtually
+    augment its decorated class with the methods found in the
+    `orig_class` type, each having their first (self) argument changed
     to match the decorated class, and their return type to match the
-    return_wrapper's generic
+    `return_wrapper`'s generic (if specified).
 
-    The canonical example is MultiCallSession, eg.
+    For example:
 
     ```
-    class ClientSession:
-        def getPerms(self) -> List[str]:
+    class Session:
+        def getPerms(self: Session) -> List[str]:
             ...
 
-    class VirtualCall(Generic[T]):
+    T = TypeVar("T")
+    class DelayCall(Generic[T]):
         result: T
 
-    @proxytype(ClientSession, VirtualCall)
-    class MultiCallSession:
+    @proxytype(ClientSession, DelayCall)
+    class DelaySession:
         ...
     ```
 
     even though not explicitly declared, the following signature
-    exists on MultiCallSession during static analysis:
-      ``getPerms(self: MultiCallSession) -> VirtualCall[List[str]]``
+    exists on ``DelaySession`` during static analysis:
+      ``def getPerms(self: DelaySession) -> DelayCall[List[str]]``
+
+    The `proxytype` decorator also supports a unary form, which will
+    cause methods to be copied over but will leave their return type
+    intact. So for example:
+
+    ```
+    @proxytype(ClientSession)
+    class TestSession:
+        ...
+    ```
+
+    will cause ``TestSession`` to analyze as if it had been declared
+    with the method:
+      ``def getPerms(self: TestSession) -> List[str]``
     """
 
     return ProxyTypeBuilder()
@@ -88,7 +116,7 @@ def proxytype(
 def plugin(version: str):
     # mypy plugin loading point. Note that we hide the implementation
     # in a different module so that the decorator can be used without
-    # triggering mypy import dependencies.
+    # triggering a mypy import.
 
     from .mypy import ProxyTypePlugin
     return ProxyTypePlugin

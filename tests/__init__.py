@@ -36,4 +36,16 @@ class RuntimeTest(TestCase):
         self.assertIs(Foo, Bar)
 
 
+    def test_decorator_unary_noop(self):
+        # test that the unary variation of the decorator also does
+        # nothing at runtime.
+
+        class Foo:
+            ...
+
+        Bar = proxytype(None)(Foo)
+
+        self.assertIs(Foo, Bar)
+
+
 # The end.
