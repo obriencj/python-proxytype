@@ -54,6 +54,15 @@ plugins =
 
 ## Usage of proxytype
 
+At runtime the proxytype class decorator has no impact. During static
+analysis via MyPy the proxytype class decorator can be used to
+virtually annotate that class with the methods from the originating
+type. Methods brought across to the decorated type will have their
+self argument type updated, and can optionally have their return type
+modified to be a wrapped generic around the original return type.
+
+For example:
+
 ```python
 from preoccupied.proxytype import proxytype
 
@@ -102,6 +111,8 @@ class DelayClientSession:
 author: Christopher O'Brien  <obriencj@preoccupied.net>
 
 original git repository: <https://github.com/obriencj/python-proxytype>
+
+pypi project: <https://pypi.org/project/preoccupied.proxytype>
 
 
 ## License
