@@ -77,7 +77,7 @@ class BinaryTest(TestCase):
 
 
     def test_plugin_enabled(self):
-        bld = load_sample("binary", enabled=True)
+        bld = load_sample("binary", enable=True)
         data = bld.files["binary"]
 
         normal = data.names["Normal"].node
@@ -122,7 +122,7 @@ class UnaryTest(TestCase):
 
 
     def test_plugin_enabled(self):
-        bld = load_sample("unary", enabled=True)
+        bld = load_sample("unary", enable=True)
         data = bld.files["unary"]
 
         normal = data.names["Normal"].node
