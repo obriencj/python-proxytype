@@ -1,9 +1,10 @@
 # Overview
 
-preoccupied.proxytype is a [Python] package providing a [MyPy] plugin and a
-class decorator for triggering that plugin. The decorator can be used
-to indicate that a decorated class should be considered during static
-analysis to posess all of the methods from another class.
+`preoccupied.proxytype` is a [Python] package providing a [MyPy]
+plugin and a class decorator for triggering that plugin. The decorator
+can be used to indicate that a decorated class should be considered
+during static analysis to posess all of the methods from another
+class.
 
 [python]: https://python.org
 
@@ -31,10 +32,10 @@ Install from the latest PyPI release
 pip install --user preoccupied.proxytype
 ```
 
-Install from git master
+Install from a git checkout
 
 ```bash
-pip install --user git+https://github.com/obriencj/python-proxytype
+make install
 ```
 
 
@@ -42,7 +43,7 @@ pip install --user git+https://github.com/obriencj/python-proxytype
 
 At runtime the proxytype class decorator does not introduce a MyPy
 dependency. However in order for it to operate during MyPy's static
-analysis checks the plugin must be enabled. For example:
+analysis checks the plugin must be enabled. For example in `setup.cfg`
 
 ```ini filename=setup.cfg
 [mypy]
