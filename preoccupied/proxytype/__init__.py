@@ -33,7 +33,7 @@ plugins =
 """
 
 
-from typing import Generic, Type, TypeVar
+from typing import Generic, Type, TypeVar, overload
 
 
 __all__ = ("proxytype", )
@@ -51,10 +51,20 @@ class ProxyTypeBuilder(Generic[PT, RT]):
         return cls
 
 
+@overload
+def proxytype(
+        orig_class: Type[PT]) -> ProxyTypeBuilder[PT, None]:
+    ...
+
+
+@overload
 def proxytype(
         orig_class: Type[PT],
         return_wrapper: Type[RT]) -> ProxyTypeBuilder[PT, RT]:
+    ...
 
+
+def proxytype(orig_class, return_wrapper=None):
     """
     class decorator which, via its ProxyTypeBuilder return type,
     triggers augmentation of its wrapper class with the methods found

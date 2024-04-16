@@ -22,7 +22,7 @@ Implementation of the MyPy plugin for preoccupied.proxytype
 
 from mypy.nodes import Decorator, FuncDef, OverloadedFuncDef, TypeInfo
 from mypy.plugin import ClassDefContext, MethodContext, Plugin
-from mypy.types import CallableType, Instance
+from mypy.types import CallableType, Instance, NoneType
 from typing import List, Union, cast
 
 
@@ -47,7 +47,7 @@ def clone_func(
     cpt.arg_types[0] = slf
 
     # overwrite return type
-    if returntype is not None:
+    if not isinstance(returntype, NoneType):
         n = returntype.copy_modified()
         n.args = (tp.ret_type, )
         cpt.ret_type = n
