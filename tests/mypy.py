@@ -26,7 +26,7 @@ from os.path import dirname
 from unittest import TestCase
 
 
-def load_sample(name="sample", enable=True):
+def load_sample(name, enable=True):
 
     # pkg_resources is deprecated and importlib.resources is a PITA
     # so... screw it, back to basics.
@@ -49,13 +49,12 @@ def load_sample(name="sample", enable=True):
     return build([src, ], opts)
 
 
-class StaticTest(TestCase):
+class BinaryTest(TestCase):
 
 
     def test_plugin_disabled(self):
-        bld = load_sample(enable=False)
-
-        data = bld.files["sample"]
+        bld = load_sample("binary", enable=False)
+        data = bld.files["binary"]
 
         normal = data.names["Normal"].node
         delayed = data.names["Delayed"].node
@@ -78,13 +77,56 @@ class StaticTest(TestCase):
 
 
     def test_plugin_enabled(self):
-        bld = load_sample()
-
-        data = bld.files["sample"]
+        bld = load_sample("binary", enabled=True)
+        data = bld.files["binary"]
 
         normal = data.names["Normal"].node
         delayed = data.names["Delayed"].node
         delres = data.names["DelayedResult"].node
+
+        self.assertEqual(bld.errors, [])
+
+        self.assertIn("doSomething", normal.names)
+        self.assertIn("doAnother", normal.names)
+        self.assertIn("getName", normal.names)
+
+        self.assertIn("doSomething", delayed.names)
+        self.assertIn("doAnother", delayed.names)
+        self.assertIn("getName", delayed.names)
+
+
+class UnaryTest(TestCase):
+
+
+    def test_plugin_disabled(self):
+        bld = load_sample("unary", enable=False)
+        data = bld.files["unary"]
+
+        normal = data.names["Normal"].node
+        delayed = data.names["Delayed"].node
+
+        self.assertTrue(bld.errors)
+
+        self.assertIn('"Delayed" has no attribute "doSomething"',
+                      bld.errors[0])
+        self.assertIn('"Delayed" has no attribute "doAnother"',
+                      bld.errors[1])
+
+        self.assertIn("doSomething", normal.names)
+        self.assertIn("doAnother", normal.names)
+        self.assertIn("getName", normal.names)
+
+        self.assertNotIn("doSomething", delayed.names)
+        self.assertNotIn("doAnother", delayed.names)
+        self.assertIn("getName", delayed.names)
+
+
+    def test_plugin_enabled(self):
+        bld = load_sample("unary", enabled=True)
+        data = bld.files["unary"]
+
+        normal = data.names["Normal"].node
+        delayed = data.names["Delayed"].node
 
         self.assertEqual(bld.errors, [])
 
