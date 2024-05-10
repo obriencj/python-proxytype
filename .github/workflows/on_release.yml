@@ -26,6 +26,9 @@ jobs:
       # - build-rpms
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install Dependencies
         run: |
           sudo apt-get install hub
