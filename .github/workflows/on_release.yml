@@ -87,7 +87,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/p/kojismokydingo
+      url: https://pypi.org/p/preoccupied.proxytype
 
     permissions:
       id-token: write
