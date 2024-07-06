@@ -40,11 +40,12 @@ def clone_func(
     tp = cast(CallableType, fn.type)
     cpt = tp.copy_modified()
 
-    # overwrite self
-    slf = cast(Instance, cpt.arg_types[0])
-    slf = slf.copy_modified()
-    slf.type = cls
-    cpt.arg_types[0] = slf
+    if not fn.is_static:
+        # overwrite self
+        slf = cast(Instance, cpt.arg_types[0])
+        slf = slf.copy_modified()
+        slf.type = cls
+        cpt.arg_types[0] = slf
 
     # overwrite return type
     if not isinstance(returntype, NoneType):
