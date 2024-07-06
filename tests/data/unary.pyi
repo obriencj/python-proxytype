@@ -17,6 +17,10 @@ class Normal:
     def getName(self) -> str:
         ...
 
+    @staticmethod
+    def getStatic() -> int:
+        ...
+
 
 @proxytype(Normal)
 class Delayed:

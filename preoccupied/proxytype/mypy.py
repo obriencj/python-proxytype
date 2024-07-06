@@ -123,6 +123,11 @@ def decorate_proxytype(wrap: TypeInfo, orig: Instance, virt: Instance):
             nsym.node = clone_overloaded(node, wrap, virt)
             wrap.names[name] = nsym
 
+        elif isinstance(node, Decorator):
+            nsym = sym.copy()
+            nsym.node = clone_decorator(node, wrap, virt)
+            wrap.names[name] = nsym
+
         else:
             # ignore others
             pass

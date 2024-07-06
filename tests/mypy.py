@@ -70,10 +70,12 @@ class BinaryTest(TestCase):
         self.assertIn("doSomething", normal.names)
         self.assertIn("doAnother", normal.names)
         self.assertIn("getName", normal.names)
+        self.assertIn("getStatic", normal.names)
 
         self.assertNotIn("doSomething", delayed.names)
         self.assertNotIn("doAnother", delayed.names)
         self.assertIn("getName", delayed.names)
+        self.assertNotIn("getStatic", delayed.names)
 
 
     def test_plugin_enabled(self):
@@ -89,10 +91,12 @@ class BinaryTest(TestCase):
         self.assertIn("doSomething", normal.names)
         self.assertIn("doAnother", normal.names)
         self.assertIn("getName", normal.names)
+        self.assertIn("getStatic", normal.names)
 
         self.assertIn("doSomething", delayed.names)
         self.assertIn("doAnother", delayed.names)
         self.assertIn("getName", delayed.names)
+        self.assertIn("getStatic", delayed.names)
 
 
 class UnaryTest(TestCase):
@@ -115,10 +119,12 @@ class UnaryTest(TestCase):
         self.assertIn("doSomething", normal.names)
         self.assertIn("doAnother", normal.names)
         self.assertIn("getName", normal.names)
+        self.assertIn("getStatic", normal.names)
 
         self.assertNotIn("doSomething", delayed.names)
         self.assertNotIn("doAnother", delayed.names)
         self.assertIn("getName", delayed.names)
+        self.assertNotIn("getStatic", delayed.names)
 
 
     def test_plugin_enabled(self):
@@ -133,10 +139,12 @@ class UnaryTest(TestCase):
         self.assertIn("doSomething", normal.names)
         self.assertIn("doAnother", normal.names)
         self.assertIn("getName", normal.names)
+        self.assertIn("getStatic", normal.names)
 
         self.assertIn("doSomething", delayed.names)
         self.assertIn("doAnother", delayed.names)
         self.assertIn("getName", delayed.names)
+        self.assertIn("getStatic", delayed.names)
 
 
 # The end.
